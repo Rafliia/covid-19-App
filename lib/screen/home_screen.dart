@@ -18,74 +18,17 @@ class HomeScreen extends StatelessWidget {
             bottomRight: Radius.circular(50),
           ),
         ),
-        child: Wrap(children: <Widget>[
-          Container(
-            width: 200,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: Column(
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Row(
-                    children: <Widget>[
-                      Container(
-                        alignment: Alignment.center,
-                        height: 30,
-                        width: 30,
-                        decoration: BoxDecoration(
-                          color: Color(0xFFFF9C00).withOpacity(0.12),
-                          shape: BoxShape.circle,
-                        ),
-                        child: SvgPicture.asset(
-                          "assets/icons/running.svg",
-                          height: 12,
-                          width: 12,
-                        ),
-                      ),
-                      SizedBox(width: 5),
-                      Text(
-                        "Confirmed Cases",
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      )
-                    ],
-                  ),
-                ),
-                Row(
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: RichText(
-                        text: TextSpan(
-                          style: TextStyle(color: kTextColor),
-                          children: [
-                            TextSpan(
-                                text: "1,062 \n",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .title
-                                    .copyWith(fontWeight: FontWeight.bold)),
-                            TextSpan(
-                                text: "People",
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  height: 2,
-                                ))
-                          ],
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      child: LineReportChart(),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          )
+        child: Wrap(runSpacing: 20, children: <Widget>[
+          infoCard(
+            title: "Confirmed Cases",
+            iconColor: Color(0xFFFF8C00),
+            effectedNum: 1062,
+          ),
+          infoCard(
+            title: "Confirmed Cases",
+            iconColor: Color(0xFFFF8C00),
+            effectedNum: 1062,
+          ),
         ]),
       ),
     );
@@ -105,6 +48,97 @@ class HomeScreen extends StatelessWidget {
           onPressed: () {},
         ),
       ],
+    );
+  }
+}
+
+class infoCard extends StatelessWidget {
+  final String title;
+  final int effectedNum;
+  final Color iconColor;
+
+  const infoCard({
+    Key key,
+    this.title,
+    this.effectedNum,
+    this.iconColor,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        return Container(
+          width: constraints.maxWidth / 2 - 10,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: Column(
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Row(
+                  children: <Widget>[
+                    Container(
+                      alignment: Alignment.center,
+                      height: 30,
+                      width: 30,
+                      decoration: BoxDecoration(
+                        color: iconColor.withOpacity(0.12),
+                        shape: BoxShape.circle,
+                      ),
+                      child: SvgPicture.asset(
+                        "assets/icons/running.svg",
+                        height: 12,
+                        width: 12,
+                      ),
+                    ),
+                    SizedBox(width: 5),
+                    Text(
+                      title,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    )
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 10),
+                child: Row(
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: RichText(
+                        text: TextSpan(
+                          style: TextStyle(color: kTextColor),
+                          children: [
+                            TextSpan(
+                                text: "$effectedNum \n",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .title
+                                    .copyWith(fontWeight: FontWeight.bold)),
+                            TextSpan(
+                                text: "People",
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  height: 2,
+                                ))
+                          ],
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: LineReportChart(),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 }
